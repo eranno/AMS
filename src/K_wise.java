@@ -5,11 +5,6 @@ public class K_wise {
 	private int k; 		//k'th wise
 	private int[] c;	//coefficients
 	private int[] h;	//k-wise
-
-	public K_wise()
-	{
-
-	}
 	
 	public K_wise(int m, int k)
 	{
@@ -35,20 +30,28 @@ public class K_wise {
 		h();
 	}
 	
+	public int[] getH() {return h;}
+	
 	private void h()
 	{
+		int x;
+		
 		//build it
 		for (int i=0; i<m; i++)
 		{
-			for (int j=0; j<k; j++)
-				h[i] = h[i] + c[j]*i^(k-j);
+			for (int j=0; j<k; j++){
+				x = (int)Math.pow(i,(k-j));
+				h[i] = h[i] + c[j]*x;
+			}
 			h[i] %= m;
+
 			
 			
 			//% FIXED TO <-1, 1> %//
 			
 			//<0,...,k> -> <0, 1>
-			h[i] = h[i] % 2;
+			//h[i] = h[i] % 2;
+			h[i] = h[i] & 1;	//bitwise
 			
 			//<0, 1> -> <-1,1>
 			h[i] = h[i]*2 - 1;
